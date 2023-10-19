@@ -8,7 +8,7 @@ from .models import Product
 
 class ProductListView(generic.ListView):
     template_name = "discover.html"
-    queryset = Product.objects.all()
+    queryset = Product.objects.filter(active=True)
 
 
 class ProductDetailView(generic.DetailView):
@@ -50,7 +50,7 @@ class ProductUpdateView(LoginRequiredMixin, generic.UpdateView):
         instance = form.save(commit=False)
         instance.user = self.request.user
         instance.save()
-        return super(ProductCreateView, self).form_valid(form)
+        return super(ProductUpdateView, self).form_valid(form)
 
     def get_success_url(self):
         return reverse(
