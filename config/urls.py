@@ -18,6 +18,12 @@ urlpatterns = [
     path("products/", views.UserProductListView.as_view(), name="user-products"),
     path("products/create/", views.ProductCreateView.as_view(), name="product-create"),
     path("p/", include("djgumroad.products.urls", namespace="products")),
+    path(
+        "create-checkout-session/<slug>/",
+        views.CreateCheckoutSessionView.as_view(),
+        name="create-checkout-session",
+    ),
+    path("success/", views.SuccessView.as_view(), name="success"),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management

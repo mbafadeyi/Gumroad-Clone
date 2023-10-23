@@ -1,24 +1,36 @@
 {% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="en">
+
 	<head>
-    <title>{% block title %}
-      djgumroad
-    {% endblock title %}</title>
+		<title>{% block title %}
+			djgumroad
+			{% endblock title %}</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		{% tailwind_css %}
+		
+		{% block javascript %}
+		<script defer src="{% static 'js/project.js' %}"></script>
+		{% endblock javascript %}
+
 	</head>
 
 	<body class="bg-gray-50 font-serif leading-normal tracking-normal">
 		<div class="container mx-auto">
-      
-      {% include "navbar.html" %}
 
-      {% block content %}
-      
-      {% endblock content %}
+			{% include "navbar.html" %}
+
+			{% block content %}
+
+			{% endblock content %}
 		</div>
+
+		{% block modal %}{% endblock modal %}
+		{% block inline_javascript %}
+		{# Script tags with only code, no src (defer by default) #}
+		{% endblock inline_javascript %}
 	</body>
+
 </html>
