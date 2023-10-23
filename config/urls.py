@@ -24,6 +24,7 @@ urlpatterns = [
         name="create-checkout-session",
     ),
     path("success/", views.SuccessView.as_view(), name="success"),
+    path("webhooks/stripe/", views.stripe_webhook, name="stripe-webhook"),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
