@@ -16,7 +16,7 @@ ALLOWED_HOSTS = [
     "localhost",
     "0.0.0.0",
     "127.0.0.1",
-    "9f77-92-40-216-53.ngrok-free.app",
+    "firstly-inviting-mallard.ngrok-free.app",
 ]
 
 # CACHES

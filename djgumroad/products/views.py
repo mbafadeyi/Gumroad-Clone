@@ -119,7 +119,7 @@ class CreateCheckoutSessionView(generic.View):
                         "currency": "usd",
                         "product_data": {
                             "name": product.name,
-                            "images": product_image_urls,
+                            # "images": product_image_urls,
                         },
                         "unit_amount": product.price,
                     },
@@ -160,10 +160,12 @@ def stripe_webhook(request, *args, **kwargs):
 
     # listen for successful payments
     if event["type"] == CHECKOUT_SESSION_COMPLETED:
-        product_id = event["data"]["object"]["metadata"]["product_id"]
-        product = Product.objects.get(id=product_id)  # noqa
+        print(event)
 
-        stripe_customer_id = event["data"]["object"]["customer"]
+        product_id = event["data"]["object"]["metadata"]["product_id"]
+        product = Product.objects.get(id=product_id)
+
+        stripe_customer_id = event["data"]["object"]["customer"]  # Fix this issue
         try:
             user = User.objects.get(stripe_customer_id=stripe_customer_id)
             user.userlibrary.products.add(product)
