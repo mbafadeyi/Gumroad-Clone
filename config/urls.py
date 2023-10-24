@@ -7,6 +7,7 @@ from django.views.generic import TemplateView
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from products import views
 from rest_framework.authtoken.views import obtain_auth_token
+from users.views import UserprofileView
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
@@ -17,6 +18,7 @@ urlpatterns = [
     ),
     path("products/", views.UserProductListView.as_view(), name="user-products"),
     path("products/create/", views.ProductCreateView.as_view(), name="product-create"),
+    path("profile/", UserprofileView.as_view(), name="profile"),
     path("p/", include("djgumroad.products.urls", namespace="products")),
     path(
         "create-checkout-session/<slug>/",
