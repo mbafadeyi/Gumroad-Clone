@@ -106,6 +106,9 @@ class CreateCheckoutSessionView(generic.View):
                 customer = request.user.stripe_customer_id
             else:
                 customer_email = request.user.email
+        product_image_urls = []
+        if product.cover:
+            product_image_urls.append(product.cover.url)
         session = stripe.checkout.Session.create(
             customer=customer,
             customer_email=customer_email,
@@ -116,6 +119,7 @@ class CreateCheckoutSessionView(generic.View):
                         "currency": "usd",
                         "product_data": {
                             "name": product.name,
+                            "images": product_image_urls,
                         },
                         "unit_amount": product.price,
                     },

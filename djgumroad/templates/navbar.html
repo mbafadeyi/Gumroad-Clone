@@ -108,22 +108,6 @@
           class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100">
           My Products
         </a>
-        {% comment %} {% if request.user.is_authenticated %}
-        <a href="{% url 'account_logout' %}"
-          class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100">
-          Sign out
-        </a>
-        {% else %}
-        <a href="{% url 'account_login' %}"
-          class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100">
-          Login
-        </a>
-        <a href="{% url 'account_signup' %}"
-          class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100">
-          Signup
-        </a>
-
-        {% endif %} {% endcomment %}
       </div>
     </div>
   </div>
