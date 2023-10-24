@@ -2,6 +2,7 @@ import stripe
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import send_mail
 from django.http import HttpResponse, JsonResponse
 from django.urls import reverse
 from django.views import generic
@@ -9,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from stripe.error import SignatureVerificationError
 
 from .forms import ProductModelForm
-from .models import Product
+from .models import Product, PurchasedProduct
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 User = get_user_model()
@@ -155,13 +156,10 @@ def stripe_webhook(request, *args, **kwargs):
 
     # listen for successful payments
     if event["type"] == CHECKOUT_SESSION_COMPLETED:
-        print(event)
-
         product_id = event["data"]["object"]["metadata"]["product_id"]
         product = Product.objects.get(id=product_id)  # noqa
 
         stripe_customer_id = event["data"]["object"]["customer"]
-        stripe_customer_email = event["data"]["object"]["customer_details"]["email"]
         try:
             user = User.objects.get(stripe_customer_id=stripe_customer_id)
             user.userlibrary.products.add(product)
@@ -176,8 +174,22 @@ def stripe_webhook(request, *args, **kwargs):
                 user.save()
                 user.userlibrary.products.add(product)
             except User.DoesNotExist:
+                PurchasedProduct.objects.create(
+                    email=stripe_customer_email,
+                    product=product,
+                )
+
+                # send an email and ask them to create an account
+                send_mail(
+                    subject="Create an account to access your content",
+                    message="Please signup to access your latest purchase",
+                    recipient_list=[stripe_customer_email],
+                    from_email="test@test.com",
+                )
+
                 # this was an anonymous checkout
                 # TODO: handle anonymous checkout
+                print("User does not exist")
                 pass
             # give access to this product
 
