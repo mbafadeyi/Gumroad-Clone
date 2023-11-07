@@ -21,6 +21,6 @@ The project was created with the following:
 
 ### Setup
 To run this project;
-<p>Set your environment variables for the requirements inside.</p>
+<p>Set your environment variables for the requirements.</p>
 <p>You can then run the project with <code>python manage.py runserver</code>.</p>
 
